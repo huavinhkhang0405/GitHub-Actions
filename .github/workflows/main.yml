@@ -1,0 +1,46 @@
+name: Demo Github Actions CI/CD 
+
+# ===== ĐIỀU KIỆN KÍCH HOẠT (EVENTS) =====
+on: 
+    push:
+        branches: [ '**' ]
+    pull_request:
+        branches: [ main ]
+    workflow_dispatch: # Cho phép kích hoạt thủ công từ giao diện GitHub Actions
+
+# ===== CÔNG VIỆC (JOBS) =====
+jobs:
+    # ---------------------------------------------------
+    # JOB 1: KỊCH BẢN 1 - CI PIPELINE CƠ BẢN
+    # ---------------------------------------------------
+    ci-test-job:
+        name: CI Test Job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Dummy CI step
+              run: echo "This is a dummy CI test step."
+    
+    # ---------------------------------------------------
+    # JOB 2: KỊCH BẢN 2 - ĐÓNG GÓI SẢN PHẨM (CD)
+    # ---------------------------------------------------
+    cd-build-artifact:
+        # Tắt tạm thời ràng buộc phụ thuộc job 1
+        #needs: ci-test-job
+        name: CD Build Artifact
+        runs-on: ubuntu-latest
+        # TẠM TẮT RÀNG BUỘC CHỈ CHẠY TRÊN MAIN
+        # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+        steps:
+            - name: 1. Lấy mã nguồn
+              uses: actions/checkout@v4
+
+            - name: 2. Nén mã nguồn thành file Zip (Artifact)
+              run: |
+                zip -r calculator.zip src/
+            
+            - name: 3. Tải sản phẩm lên GitHub Actions Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: calculator-artifact
+                path: calculator.zip

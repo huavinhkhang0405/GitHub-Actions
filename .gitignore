@@ -1,0 +1,9 @@
+# Bỏ qua môi trường ảo
+github_actions/
+
+# Bỏ qua các file cache/rác của Python sinh ra trong lúc chạy
+__pycache__/
+*.pyc
+*.pyo
+
+calculator.zip 
