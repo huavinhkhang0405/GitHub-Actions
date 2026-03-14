@@ -17,8 +17,39 @@ jobs:
         name: CI Test Job
         runs-on: ubuntu-latest
         steps:
-            - name: Dummy CI step
-              run: echo "This is a dummy CI test step."
+            - name: 1. Lấy mã nguồn (Checkout)
+              uses: actions/checkout@v4
+
+            - name: 2. Thiết lập Python 3.10
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'
+                cache: 'pip' # Tự động cache các thư viện để chạy nhanh hơn
+
+            - name: 3. Cài đặt thư viện phụ thuộc
+              run: |
+                python -m pip install --upgrade pip
+                pip install pytest pytest-cov flake8
+                if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+            - name: 4. Kiểm tra chuẩn Code (Linting với flake8)
+              run: |
+                # Kiểm tra lỗi cú pháp và các lỗi nghiêm trọng
+                flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+
+            - name: 5. Chạy Unit Test và Đo độ bao phủ
+              run: |
+                # Chạy pytest và xuất báo cáo XML
+                pytest tests/test_calculator.py --doctest-modules --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html
+
+            - name: 6. Tải báo cáo Test lên (Artifacts)
+              if: always() # Luôn chạy kể cả khi test fail để xem lỗi
+              uses: actions/upload-artifact@v4
+              with:
+                name: test-reports
+                path: |
+                    junit/test-results.xml
+                    htmlcov/
     
     # ---------------------------------------------------
     # JOB 2: KỊCH BẢN 2 - ĐÓNG GÓI SẢN PHẨM (CD)
@@ -44,3 +75,4 @@ jobs:
               with:
                 name: calculator-artifact
                 path: calculator.zip
+

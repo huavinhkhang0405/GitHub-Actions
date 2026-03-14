@@ -9,5 +9,5 @@ def multiply(a, b):
 
 def divide(a, b):
     if b == 0:
-        raise ValueError("Không thể chia cho 0")
-    return a // b
+        raise ZeroDivisionError("Không thể chia cho 0")
+    return a / b
