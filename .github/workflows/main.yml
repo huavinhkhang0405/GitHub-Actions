@@ -39,8 +39,9 @@ jobs:
 
             - name: 5. Chạy Unit Test và Đo độ bao phủ
               run: |
-                # Chạy pytest và xuất báo cáo XML
-                pytest tests/test_calculator.py --doctest-modules --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html
+                pytest tests/test_calculator.py --junitxml=junit/test-results.xml --cov=src --cov-report=xml
+              env:
+                PYTHONPATH: . # Đảm bảo pytest có thể tìm thấy module src
 
             - name: 6. Tải báo cáo Test lên (Artifacts)
               if: always() # Luôn chạy kể cả khi test fail để xem lỗi
