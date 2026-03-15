@@ -1,5 +1,5 @@
 import pytest
-from src.calculator import add, subtract, multiply
+from src.calculator import add, subtract, multiply, divide
 
 # 1. KHAI BÁO DỮ LIỆU TEST
 # Cấu trúc: (a, b, expected)
@@ -33,9 +33,15 @@ def test_subtract(a, b, expected):
 def test_multiply(a, b, expected):
     assert multiply(a, b) == expected
 
+@pytest.mark.parametrize("a, b, expected", DIVIDE_DATA)
+def test_divide(a, b, expected):
+    assert divide(a, b) == expected
 
-
-
+# 3. KIỂM THỬ NGOẠI LỆ (Negative Tests)
+def test_divide_by_zero():
+    # TC_06: Kiểm thử ngoại lệ chia cho 0
+    with pytest.raises(ZeroDivisionError):
+        divide(10, 0)
 
 def test_invalid_type():
     # TC_07: Nhập sai kiểu dữ liệu
