@@ -1,9 +1,5 @@
-# def add(a, b):
-#     return a + b
-
-#=============== Trường hợp push fail ===============
 def add(a, b):
-    return a - b  # Sửa dấu + thành dấu -
+    return a + b
 
 def subtract(a, b):
     return a - b
