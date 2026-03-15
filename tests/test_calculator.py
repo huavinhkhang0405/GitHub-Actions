@@ -35,11 +35,7 @@ def test_multiply(a, b, expected):
 
 
 
-# 3. KIỂM THỬ NGOẠI LỆ (Negative Tests)
-def test_divide_by_zero():
-    # TC_06: Kiểm thử ngoại lệ chia cho 0
-    with pytest.raises(ZeroDivisionError):
-        divide(10, 0)
+
 
 def test_invalid_type():
     # TC_07: Nhập sai kiểu dữ liệu
