@@ -10,7 +10,7 @@ on:
 # ===== CÔNG VIỆC (JOBS) =====
 jobs:
     # ---------------------------------------------------
-    # JOB 1: KỊCH BẢN 1 - CI PIPELINE CƠ BẢN
+    # JOB 1: CI PIPELINE CƠ BẢN
     # ---------------------------------------------------
     ci-test-job:
         name: CI Test Job
@@ -23,7 +23,7 @@ jobs:
               uses: actions/setup-python@v5
               with:
                 python-version: '3.10'
-                cache: 'pip' # Tự động cache các thư viện để chạy nhanh hơn
+                cache: 'pip'
 
             - name: 3. Cài đặt thư viện phụ thuộc
               run: |
@@ -40,10 +40,10 @@ jobs:
               run: |
                 pytest tests/test_calculator.py --junitxml=junit/test-results.xml --cov=src --cov-report=xml
               env:
-                PYTHONPATH: . # Đảm bảo pytest có thể tìm thấy module src
+                PYTHONPATH: . 
 
             - name: 6. Tải báo cáo Test lên (Artifacts)
-              if: always() # Luôn chạy kể cả khi test fail để xem lỗi
+              if: always() 
               uses: actions/upload-artifact@v4
               with:
                 name: test-reports
@@ -52,14 +52,14 @@ jobs:
                     htmlcov/
     
     # ---------------------------------------------------
-    # JOB 2: KỊCH BẢN 2 - ĐÓNG GÓI SẢN PHẨM (CD)
+    # JOB 2: ĐÓNG GÓI SẢN PHẨM (CD)
     # ---------------------------------------------------
     cd-build-artifact:
-        # Tắt tạm thời ràng buộc phụ thuộc job 1
+
         needs: ci-test-job
         name: CD Build Artifact
         runs-on: ubuntu-latest
-        # TẠM TẮT RÀNG BUỘC CHỈ CHẠY TRÊN MAIN
+
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
         steps:
