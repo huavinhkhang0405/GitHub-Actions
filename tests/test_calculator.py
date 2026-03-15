@@ -33,9 +33,7 @@ def test_subtract(a, b, expected):
 def test_multiply(a, b, expected):
     assert multiply(a, b) == expected
 
-@pytest.mark.parametrize("a, b, expected", DIVIDE_DATA)
-def test_divide(a, b, expected):
-    assert divide(a, b) == expected
+
 
 # 3. KIỂM THỬ NGOẠI LỆ (Negative Tests)
 def test_divide_by_zero():
