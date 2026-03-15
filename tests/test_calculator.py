@@ -1,5 +1,5 @@
 import pytest
-from src.calculator import add, subtract, multiply, divide
+from src.calculator import add, subtract, multiply
 
 # 1. KHAI BÁO DỮ LIỆU TEST
 # Cấu trúc: (a, b, expected)
